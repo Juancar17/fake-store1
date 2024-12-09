@@ -53,7 +53,9 @@ const NavBar = ({ products }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full focus:outline-none focus:ring focus:ring-indigo-300"
             />
-            <button className="relative text-gray-700 hover:text-[#00004d] transition-transform duration-300 hover:scale-110">
+            <button 
+            onClick={() => openProductModal(product)}
+            className="relative text-gray-700 hover:text-[#00004d] transition-transform duration-300 hover:scale-110">
               🛒
             </button>
             <a
