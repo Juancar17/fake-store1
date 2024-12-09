@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const NavBar = ({ products }) => {
+const NavBar = ({ products, cart, openCart })=> {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [searchTerm, setSearchTerm] = useState(""); // Estado para el valor del input
   const [filteredResults, setFilteredResults] = useState([]);
 
@@ -39,7 +40,7 @@ const NavBar = ({ products }) => {
             ))}
           </div>
 
-          {/* Search */}
+     
          
            
         
@@ -53,11 +54,15 @@ const NavBar = ({ products }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full focus:outline-none focus:ring focus:ring-indigo-300"
             />
-            <button 
-            onClick={() => openProductModal(product)}
-            className="relative text-gray-700 hover:text-[#00004d] transition-transform duration-300 hover:scale-110">
-              🛒
-            </button>
+             <div className="relative cursor-pointer" onClick={openCart}>
+      
+            <span className="text-2xl">🛒</span>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                  {totalItems}
+                </span>
+              )}
+            </div>
             <a
               href="#"
               className="text-sm font-semibold text-gray-900 hover:text-[#00004d] transition-colors duration-300"
@@ -66,7 +71,6 @@ const NavBar = ({ products }) => {
             </a>
           </div>
         </nav>
-
       </header>
 
       {/* Mostrar resultados de búsqueda */}

@@ -1,40 +1,36 @@
 import React from "react";
 
 const Cart = ({ cart, removeFromCart }) => {
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="container mx-auto mt-8 px-6">
+    <div className="container mx-auto p-6 mt-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Shopping Cart 🛒</h2>
       {cart.length > 0 ? (
-        <div className="space-y-4">
+        <ul>
           {cart.map((item) => (
-            <div
+            <li
               key={item.id}
-              className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow"
+              className="flex justify-between items-center border-b py-4"
             >
-              <div>
-                <h3 className="font-semibold text-lg">{item.title}</h3>
-                <p className="text-gray-500">
-                  ${item.price} x {item.quantity} = $
-                  {(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
+              <span>
+                {item.title} - ${item.price} x {item.quantity}
+              </span>
               <button
                 onClick={() => removeFromCart(item.id)}
                 className="text-red-500 hover:text-red-700 font-semibold"
               >
                 Remove
               </button>
-            </div>
+            </li>
           ))}
-          <h3 className="text-xl font-bold text-right">
-            Total: ${total.toFixed(2)}
-          </h3>
-        </div>
+        </ul>
       ) : (
         <p className="text-gray-500">Your cart is empty.</p>
       )}
+      <div className="text-right mt-4">
+        <strong>Total: ${total.toFixed(2)}</strong>
+      </div>
     </div>
   );
 };

@@ -1,12 +1,9 @@
 import React from "react";
 import AddToCartButton from "./AddToCartButton";
 
-const ProductCard = ({ product, addToCart, onProductClick }) => {
+const ProductCard = ({ product, addToCart }) => {
   return (
-    <div
-      className="bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between h-[420px] cursor-pointer hover:shadow-2xl transition duration-300"
-      onClick={onProductClick}
-    >
+    <div className="bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between h-[420px] hover:shadow-2xl transition duration-300">
       {/* Imagen */}
       <div className="h-40 w-full flex items-center justify-center">
         <img
@@ -24,8 +21,8 @@ const ProductCard = ({ product, addToCart, onProductClick }) => {
         <p className="text-green-600 font-bold mt-2">${product.price}</p>
       </div>
 
-      {/* Botón Add to Cart */}
-      <div className="mt-4 flex justify-center">
+      {/* Botón AddToCart */}
+      <div className="mt-4">
         <AddToCartButton product={product} addToCart={addToCart} />
       </div>
     </div>

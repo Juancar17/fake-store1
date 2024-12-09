@@ -8,14 +8,13 @@ import Electronics from "./components/Electronics.jsx";
 import Men from "./components/Men.jsx";
 import Woman from "./components/Woman.jsx";
 import Footer from "./components/Footer.jsx";
-import Cart from "./components/Cart.jsx";
-import ProductModal from "./components/ProductModal.jsx";
 import ProductCard from "./components/ProductCard.jsx";
+import CartModal from "./components/CartModal.jsx";
 
 function App() {
-  const [products, setProducts] = useState([]); // Estado para productos
-  const [cart, setCart] = useState([]); // Estado del carrito
-  const [selectedProduct, setSelectedProduct] = useState(null); // Producto seleccionado para el modal
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Fetch de productos desde la API
   useEffect(() => {
@@ -25,7 +24,7 @@ function App() {
       .catch((err) => console.error("Error al obtener los productos:", err));
   }, []);
 
-  // Añadir producto al carrito
+  // Función para añadir productos al carrito
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
@@ -38,64 +37,50 @@ function App() {
     });
   };
 
-  // Eliminar producto del carrito
-  const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  // Función para aumentar cantidad
+  const increaseQuantity = (productId) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
   };
 
-  // Abrir modal del producto
-  const openProductModal = (product) => {
-    setSelectedProduct(product);
-  };
-
-  // Cerrar modal del producto
-  const closeProductModal = () => {
-    setSelectedProduct(null);
+  // Función para disminuir cantidad
+  const decreaseQuantity = (productId) => {
+    setCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: Math.max(item.quantity - 1, 0) }
+            : item
+        )
+        .filter((item) => item.quantity > 0) // Eliminar productos con cantidad 0
+    );
   };
 
   return (
     <>
       <div className="min-h-screen bg-gray-100 p-6">
-        {/* NavBar */}
-        <NavBar products={products} />
-
-        {/* Hero */}
+        <NavBar products={products} cart={cart} openCart={() => setIsCartOpen(true)} />
         <Hero />
-
-        {/* Categorías y Listado de Productos */}
         <Categories />
-        <Jewelery />
-        <Electronics />
-        <Men />
-        <Woman />
-
-        {/* Carrusel de Productos */}
+        <Jewelery addToCart={addToCart} />
+        <Men addToCart={addToCart} />
+        <Woman addToCart={addToCart} />
+        <Electronics addToCart={addToCart}/>
         <ProductCarousel products={products} />
-
-        {/* Mostrar Productos */}
-        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
-          {products.map((product) => (
-            <ProductCard
-            key={product.id}
-            product={product}
-            addToCart={addToCart} // Pasamos la función correctamente
-            onProductClick={() => openProductModal(product)}
-          />
-          
-          ))}
-        </div>
-
-        {/* Modal del Producto */}
-        {selectedProduct && (
-          <ProductModal
-          product={selectedProduct}
-          addToCart={addToCart} // Pasamos la función correctamente
-          onClose={closeProductModal}
-        />
-        )}
       </div>
 
-      {/* Footer */}
+      {isCartOpen && (
+        <CartModal
+          cart={cart}
+          closeCart={() => setIsCartOpen(false)}
+          increaseQuantity={increaseQuantity}
+          decreaseQuantity={decreaseQuantity}
+        />
+      )}
+
       <Footer />
     </>
   );

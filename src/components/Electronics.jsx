@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import useOnScreen from "../useOnScreen";
 
-function Electronics() {
-  const [products, setProducts] = useState([]);
+function Electronics({ addToCart }) {
+  const [products, setProducts] = useState([]); // Estado de productos
 
+  // Fetch de productos de la categoría "electronics"
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/category/electronics")
       .then((res) => res.json())
@@ -14,10 +15,19 @@ function Electronics() {
 
   return (
     <div className="container mx-auto px-6 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8">Electronics</h2>
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        Electronics
+      </h2>
+
+      {/* Grid de productos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products.map((product, index) => (
-          <AnimatedProductCard key={product.id} product={product} delay={index * 150} />
+          <AnimatedProductCard
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+            delay={index * 150} // Animación con retraso progresivo
+          />
         ))}
       </div>
     </div>
@@ -25,7 +35,7 @@ function Electronics() {
 }
 
 // Componente con animación individual
-function AnimatedProductCard({ product, delay }) {
+function AnimatedProductCard({ product, addToCart, delay }) {
   const [ref, isVisible] = useOnScreen({ threshold: 0.2 });
 
   return (
@@ -36,7 +46,8 @@ function AnimatedProductCard({ product, delay }) {
         isVisible ? "opacity-100 translate-y-0" : "translate-y-10"
       }`}
     >
-      <ProductCard product={product} />
+      {/* Pasamos addToCart a ProductCard */}
+      <ProductCard product={product} addToCart={addToCart} />
     </div>
   );
 }

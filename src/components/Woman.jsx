@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard"; // Reutilizamos tu componente ProductCard
 import useOnScreen from "../useOnScreen"; // Hook personalizado para scroll animations
 
-export default function FilteredProducts() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function Woman({ addToCart }) {
+  const [products, setProducts] = useState([]); // Estado de productos
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [ref, isVisible] = useOnScreen({ threshold: 0.3 }); // Hook personalizado para animación
 
   // Fetch all products y filtrar "women's clothing"
   useEffect(() => {
@@ -24,14 +25,26 @@ export default function FilteredProducts() {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold text-center mb-8">Women's Clothing</h2>
+    <div
+      ref={ref}
+      className={`container mx-auto px-6 py-8 transition-all duration-700 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      }`}
+    >
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        Women's Clothing
+      </h2>
       {loading ? (
         <p className="text-center text-gray-500">Cargando productos...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product, index) => (
-            <AnimatedProductCard key={product.id} product={product} delay={index * 150} />
+            <AnimatedProductCard
+              key={product.id}
+              product={product}
+              addToCart={addToCart} // Pasamos addToCart como prop
+              delay={index * 100} // Retraso en ms
+            />
           ))}
         </div>
       )}
@@ -40,7 +53,7 @@ export default function FilteredProducts() {
 }
 
 // Componente animado para las tarjetas
-function AnimatedProductCard({ product, delay }) {
+function AnimatedProductCard({ product, addToCart, delay }) {
   const [ref, isVisible] = useOnScreen({ threshold: 0.2 });
 
   return (
@@ -51,7 +64,7 @@ function AnimatedProductCard({ product, delay }) {
         isVisible ? "opacity-100 translate-y-0" : "translate-y-10"
       }`}
     >
-      <ProductCard product={product} />
+      <ProductCard product={product} addToCart={addToCart} />
     </div>
   );
 }
