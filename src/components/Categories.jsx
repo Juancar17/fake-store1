@@ -36,7 +36,7 @@ export default function Categories() {
   }, []);
 
   return (
-    <div className="container mx-auto p-9 my-16" id="Categories">
+    <div className="container mx-auto p-9 my-16" id="categories">
       <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
         Explore Categories
       </h2>

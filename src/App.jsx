@@ -25,7 +25,9 @@ function App() {
     <>
     
      <div className="min-h-screen bg-gray-100 p-6">
-      <NavBar />
+     <div>
+      <NavBar products={products} />
+    </div>
       <Hero />
       <div>
       <Categories />

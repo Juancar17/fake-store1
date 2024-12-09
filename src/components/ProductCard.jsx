@@ -1,6 +1,7 @@
 export default function ProductCard({ product }) {
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4 flex flex-col justify-between h-[420px] transition duration-300 hover:shadow-2xl">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4 flex flex-col justify-between h-[420px] transition duration-300 hover:shadow-2xl" id="products">
+      {/* Imagen */}
       <div className="h-40 w-full flex items-center justify-center">
         <img
           src={product.image}

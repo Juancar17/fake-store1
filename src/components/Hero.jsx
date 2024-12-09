@@ -12,7 +12,7 @@ export default function Hero() {
   };
 
   return (
-    <div className="bg-gray-100 overflow-hidden" ref={ref}>
+    <div className="bg-gray-100 overflow-hidden" ref={ref} id="home">
       <div
         className={`container mx-auto flex flex-col lg:flex-row items-center justify-between px-6 py-12 lg:py-24 transition-all duration-1000 ${
           isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
