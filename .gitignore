@@ -1,7 +1,9 @@
 # Dependencias de Node.js
-node_modules
+node_modules/
+build/
+.DS_Store
+.env
 package-lock.json
-yarn.lock
 
 # Archivos de compilación
 dist
@@ -18,8 +20,3 @@ build
 .DS_Store
 Thumbs.db
 
-node_modules/
-build/
-.DS_Store
-.env
-package-lock.json
