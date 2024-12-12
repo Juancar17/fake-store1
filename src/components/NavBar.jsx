@@ -32,6 +32,16 @@ const NavBar = ({ products, cart, openCart }) => {
 
 
           {/* Botón Hamburguesa */}
+          <div className="relative cursor-pointer" onClick={openCart}>
+              <span className="text-2xl">
+              <GiShoppingCart />
+                </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                  {totalItems}
+                </span>
+              )}
+            </div>
           <div className="lg:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -43,7 +53,9 @@ const NavBar = ({ products, cart, openCart }) => {
                 <span className="text-2xl">☰</span>
               )}
             </button>
+            
           </div>
+          
 
           {/* Menú de Navegación Desktop */}
           <div className="hidden lg:flex lg:gap-x-12">
