@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar.jsx";
-import Hero from "./components/hero.jsx";
+import Hero from "./components/Hero.jsx";
 import Categories from "./components/Categories.jsx";
 import ProductCarousel from "./components/ProductCarousel.jsx";
 import Jewelery from "./components/Jewelery.jsx";
