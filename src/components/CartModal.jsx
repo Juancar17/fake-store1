@@ -1,5 +1,5 @@
 import React from "react";
-
+import { GiShoppingCart } from "react-icons/gi";
 const CartModal = ({ cart, closeCart, increaseQuantity, decreaseQuantity }) => {
   // Calcular el total de precio del carrito
   const totalPrice = cart.reduce(
@@ -10,7 +10,9 @@ const CartModal = ({ cart, closeCart, increaseQuantity, decreaseQuantity }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Your Cart 🛒</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          <GiShoppingCart />
+          </h2>
         {cart.length > 0 ? (
           <>
             <ul>
