@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import useOnScreen from "../useOnScreen";
 
 // Imágenes para cada categoría
@@ -67,9 +67,7 @@ function CategoryCard({ category, delay }) {
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }} // Retraso en la animación
       className={`flex flex-col items-center bg-white p-6 rounded-xl shadow-lg transform transition-all duration-700 ${
-        isVisible
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-10"
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
       {/* Imagen */}
@@ -83,7 +81,11 @@ function CategoryCard({ category, delay }) {
 
       {/* Nombre de Categoría */}
       <button
-        onClick={() => document.getElementById(category)?.scrollIntoView({ behavior: "smooth" })}
+        onClick={() =>
+          document
+            .getElementById(category)
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
         className="text-xl font-semibold text-gray-800 hover:text-indigo-600 transition duration-300"
       >
         {formattedCategoryNames[category] || category}

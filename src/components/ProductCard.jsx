@@ -1,5 +1,4 @@
 import React from "react";
-import AddToCartButton from "./AddToCartButton";
 
 const ProductCard = ({ product, addToCart }) => {
   return (
@@ -22,9 +21,12 @@ const ProductCard = ({ product, addToCart }) => {
       </div>
 
       {/* Botón AddToCart */}
-      <div className="mt-4">
-        <AddToCartButton product={product} addToCart={addToCart} />
-      </div>
+      <button
+        onClick={() => addToCart(product)}
+        className="mt-4 bg-[#00004d] text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-[#000033] transition duration-300"
+      >
+        🛒
+      </button>
     </div>
   );
 };

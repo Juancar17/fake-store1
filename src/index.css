@@ -3,85 +3,101 @@
 @tailwind utilities;
 /* index.css */
 html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  @keyframes slideDown {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  .animate-slideDown {
-    animation: slideDown 1s ease-out forwards;
-  }
+  scroll-behavior: smooth;
+}
 
-  @keyframes fadeZoomIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
   }
-  
-  .animate-fadeZoomIn {
-    animation: fadeZoomIn 1s ease-out forwards;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  @keyframes slideLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+}
+
+.animate-slideDown {
+  animation: slideDown 1s ease-out forwards;
+}
+
+@keyframes fadeZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-  
-  .animate-slideLeft {
-    animation: slideLeft 1s ease-out forwards;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+}
+
+.animate-fadeZoomIn {
+  animation: fadeZoomIn 1s ease-out forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
   }
-  
-  .animate-scaleIn {
-    animation: scaleIn 1s ease-out forwards;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+.animate-slideLeft {
+  animation: slideLeft 1s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
   }
-  
-  .animate-fadeUp {
-    animation: fadeUp 1s ease-out forwards;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
+}
+
+.animate-scaleIn {
+  animation: scaleIn 1s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 1s ease-out forwards;
+}
+
+:root {
+  --bg-color-light: #ffffff;
+  --text-color-light: #000000;
+  --bg-color-dark: #1a202c;
+  --text-color-dark: #f7fafc;
+}
+
+html.light {
+  background-color: var(--bg-color-light);
+  color: var(--text-color-light);
+}
+
+html.dark {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}

@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import NavBar from "./components/NavBar.jsx";
-import Hero from "./components/hero.jsx";
-import Categories from "./components/Categories.jsx";
-import ProductCarousel from "./components/ProductCarousel.jsx";
-import Jewelery from "./components/Jewelery.jsx";
-import Electronics from "./components/Electronics.jsx";
-import Men from "./components/Men.jsx";
-import Woman from "./components/Woman.jsx";
-import Footer from "./components/Footer.jsx";
-import ProductCard from "./components/ProductCard.jsx";
-import CartModal from "./components/CartModal.jsx";
+import React, { useEffect, useState } from "react";
+import CartModal from "./components/CartModal";
+import Categories from "./components/Categories";
+import Electronics from "./components/Electronics";
+import Footer from "./components/Footer";
+import Hero from "./components/Hero";
+import Jewelery from "./components/Jewelery";
+import Men from "./components/Men";
+import NavBar from "./components/NavBar";
+import ProductCarousel from "./components/ProductCarousel";
+import Rewiews from "./components/Reviews";
+import Woman from "./components/Woman";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -30,7 +30,9 @@ function App() {
       const existingProduct = prevCart.find((item) => item.id === product.id);
       if (existingProduct) {
         return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       }
       return [...prevCart, { ...product, quantity: 1 }];
@@ -48,28 +50,34 @@ function App() {
 
   // Función para disminuir cantidad
   const decreaseQuantity = (productId) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: Math.max(item.quantity - 1, 0) }
-            : item
-        )
-        .filter((item) => item.quantity > 0) // Eliminar productos con cantidad 0
+    setCart(
+      (prevCart) =>
+        prevCart
+          .map((item) =>
+            item.id === productId
+              ? { ...item, quantity: Math.max(item.quantity - 1, 0) }
+              : item
+          )
+          .filter((item) => item.quantity > 0) // Eliminar productos con cantidad 0
     );
   };
 
   return (
     <>
       <div className="min-h-screen bg-gray-100 p-6">
-        <NavBar products={products} cart={cart} openCart={() => setIsCartOpen(true)} />
+        <NavBar
+          products={products}
+          cart={cart}
+          openCart={() => setIsCartOpen(true)}
+          addToCart={addToCart}
+        />
         <Hero />
         <Categories />
         <Jewelery addToCart={addToCart} />
         <Men addToCart={addToCart} />
         <Woman addToCart={addToCart} />
-        <Electronics addToCart={addToCart}/>
-        <ProductCarousel products={products} />
+        <Electronics addToCart={addToCart} />
+        <ProductCarousel products={products} addToCart={addToCart} />
       </div>
 
       {isCartOpen && (
@@ -80,6 +88,9 @@ function App() {
           decreaseQuantity={decreaseQuantity}
         />
       )}
+      <div className="min-h-screen bg-gray-100 p-6">
+        <Rewiews />
+      </div>
 
       <Footer />
     </>
