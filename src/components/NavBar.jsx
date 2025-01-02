@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const NavBar = ({ products, cart, openCart })=> {
+const NavBar = ({ products, cart, openCart }) => {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [searchTerm, setSearchTerm] = useState(""); // Estado para el valor del input
   const [filteredResults, setFilteredResults] = useState([]);
@@ -40,23 +40,17 @@ const NavBar = ({ products, cart, openCart })=> {
             ))}
           </div>
 
-     
-         
-           
-        
-
           {/* Carrito y Login */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
-          <input
+            <input
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full focus:outline-none focus:ring focus:ring-indigo-300"
             />
-             <div className="relative cursor-pointer" onClick={openCart}>
-      
-            <span className="text-2xl">🛒</span>
+            <div className="relative cursor-pointer" onClick={openCart}>
+              <span className="text-2xl">🛒</span>
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
                   {totalItems}

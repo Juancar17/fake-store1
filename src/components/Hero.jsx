@@ -2,7 +2,7 @@ import React from "react";
 import useOnScreen from "../useOnScreen";
 
 export default function Hero() {
-  const [ref, isVisible] = useOnScreen({ threshold: 0.3 }); // Detecta cuando el 30% del elemento es visible
+  const [ref, isVisible] = useOnScreen({ threshold: 0.5 }); // Detecta cuando el 30% del elemento es visible
 
   const handleCategoryClick = () => {
     const section = document.getElementById("carousel");
@@ -25,8 +25,7 @@ export default function Hero() {
           }`}
         >
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-            Welcome at{" "}
-            <span className="text-[#00004d]">Fake Store</span>
+            Welcome at <span className="text-[#00004d]">Fake Store</span>
           </h1>
           <p className="mt-4 text-gray-600 text-lg">
             La mejor tienda en línea para descubrir productos increíbles. Desde
