@@ -1,109 +1,212 @@
+import {
+  faBars,
+  faPlus,
+  faShoppingCart,
+  faSignOutAlt,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const NavBar = ({ products, cart, openCart, addToCart }) => {
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredResults, setFilteredResults] = useState([]);
+const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para el menú móvil
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const results = products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredResults(results);
-  }, [searchTerm, products]);
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decodificar el token JWT
+      setIsAdmin(decodedToken.is_admin); // Verificar si el usuario es administrador
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Eliminar token
+    setIsLoggedIn(false); // Actualizar estado
+    setIsAdmin(false); // Actualizar rol
+    setIsMenuOpen(false); // Cerrar menú móvil si está abierto
+    navigate("/"); // Redirigir al inicio
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
-    <>
-      <header className="fixed inset-x-0 top-0 z-50 bg-white shadow-md transition-transform duration-1000 translate-y-[-100%] animate-slideDown">
-        <nav className="flex items-center justify-between p-6 lg:px-8">
-          <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5 flex items-center">
-              <span className="ml-2 text-lg font-bold text-[#00004d]">
-                Fake Store 🛍️
-              </span>
-            </a>
-          </div>
+    <header className="fixed inset-x-0 top-0 z-50 bg-trasparent backdrop-blur backdrop-filter backdrop-saturate-150">
+      <nav className="flex items-center justify-between p-4 lg:px-8">
+        {/* Logo */}
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center">
+            <span className="ml-2 text-3xl font-extrabold text-white font-custom">
+              Mi <span className="text-[#4d79ff] text-5xl">Tienda</span>
+            </span>
+          </Link>
+        </div>
 
-          <div className="hidden lg:flex lg:gap-x-12">
-            {["Home", "Products", "Categories", "Contact"].map((item, idx) => (
-              <a
-                key={idx}
-                href={`#${item.toLowerCase()}`}
-                className="text-sm font-semibold text-gray-900 relative group hover:text-[#00004d]"
+        {/* Menú principal */}
+        <div className="hidden md:flex flex-grow justify-center space-x-8">
+          <Link
+            to="/"
+            className="text-sm font-semibold text-white relative group hover:text-[#4d79ff]"
+          >
+            Inicio
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4d79ff] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/productos"
+            className="text-sm font-semibold text-white relative group hover:text-[#4d79ff]"
+          >
+            Productos
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4d79ff] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/nosotros"
+            className="text-sm font-semibold text-white relative group hover:text-[#4d79ff]"
+          >
+            Nosotros
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4d79ff] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/contacto"
+            className="text-sm font-semibold text-white relative group hover:text-[#4d79ff]"
+          >
+            Contacto
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4d79ff] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/add-product"
+            className="text-sm font-semibold text-white relative group hover:text-[#4d79ff]"
+          >
+            <FontAwesomeIcon icon={faPlus} className="mr-1" />
+            Añadir Producto
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4d79ff] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+        </div>
+
+        {/* Botón para menú móvil */}
+        <button
+          className="md:hidden flex items-center text-white hover:text-[#4d79ff]"
+          onClick={toggleMenu}
+          aria-label="Toggle navigation menu"
+        >
+          <FontAwesomeIcon icon={faBars} className="h-6 w-6" />
+        </button>
+
+        {/* Enlaces de sesión */}
+        <div className="hidden md:flex items-center space-x-6">
+          {isLoggedIn ? (
+            <>
+              <Link
+                to="/perfil"
+                className="text-sm font-semibold text-white flex items-center space-x-2 hover:text-[#4d79ff]"
               >
-                {item}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00004d] transition-all duration-300 group-hover:w-full"></span>
-              </a>
-            ))}
-          </div>
+                <FontAwesomeIcon icon={faUser} />
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-sm font-semibold text-white flex items-center space-x-2 hover:text-[#ff4d4d]"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-sm font-semibold text-white flex items-center space-x-2 hover:text-[#4d79ff]"
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </Link>
+          )}
+          <Link
+            to="/carrito"
+            className="text-sm font-semibold text-white flex items-center space-x-2 hover:text-[#4d79ff]"
+          >
+            <FontAwesomeIcon icon={faShoppingCart} />
+          </Link>
+        </div>
+      </nav>
 
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full focus:outline-none focus:ring focus:ring-indigo-300"
-            />
-            <div className="relative cursor-pointer" onClick={openCart}>
-              <span className="text-2xl">🛒</span>
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
-                  {totalItems}
-                </span>
-              )}
-            </div>
-          </div>
-        </nav>
-      </header>
-
-      <div className="mt-24 container mx-auto px-6">
-        {searchTerm && (
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Search Results:</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredResults.length > 0 ? (
-                filteredResults.map((product) => (
-                  <SearchResultCard
-                    key={product.id}
-                    product={product}
-                    addToCart={addToCart}
-                  />
-                ))
-              ) : (
-                <p>No results found.</p>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </>
+      {/* Menú móvil */}
+      {isMenuOpen && (
+        <div className="md:hidden mt-2 bg-trasparent inset-0 flex flex-col items-center justify-center z-40 space-y-6 animate-slideDown">
+          <Link
+            to="/"
+            className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Inicio
+          </Link>
+          <Link
+            to="/nosotros"
+            className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Nosotros
+          </Link>
+          <Link
+            to="/productos"
+            className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Productos
+          </Link>
+          <Link
+            to="/contacto"
+            className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Contacto
+          </Link>
+          {isAdmin && (
+            <Link
+              to="/add-product"
+              className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Añadir Producto
+            </Link>
+          )}
+          {isLoggedIn ? (
+            <>
+              <Link
+                to="/perfil"
+                className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Perfil
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-lg font-semibold text-white hover:text-[#ff4d4d]"
+              >
+                Salir
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Iniciar Sesión
+            </Link>
+          )}
+          <Link
+            to="/carrito"
+            className="text-lg font-semibold text-white hover:text-[#4d79ff]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Carrito
+          </Link>
+        </div>
+      )}
+    </header>
   );
 };
 
-const SearchResultCard = ({ product, addToCart }) => (
-  <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4 flex flex-col justify-between h-[420px] transition duration-300 hover:shadow-2xl">
-    <div className="h-40 w-full flex items-center justify-center">
-      <img
-        src={product.image}
-        alt={product.title}
-        className="max-h-full object-contain"
-      />
-    </div>
-    <div className="flex-1 text-center mt-4">
-      <h2 className="font-bold text-gray-800 text-lg line-clamp-2">
-        {product.title}
-      </h2>
-      <p className="text-gray-500 text-sm mt-2">{product.category}</p>
-      <p className="text-green-600 font-bold mt-2">${product.price}</p>
-    </div>
-    <button
-      onClick={() => addToCart(product)}
-      className="mt-4 bg-[#00004d] text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-[#000033] transition duration-300"
-    >
-      🛒
-    </button>
-  </div>
-);
-
-export default NavBar;
+export default Navbar;
